@@ -1,0 +1,12 @@
+redis:
+  Addr: localhost:6379
+  Password: ""
+  DB: 0
+
+
+mysql:
+  db: test
+  host: localhost
+  passwd:
+  port: 3306
+  user: root
