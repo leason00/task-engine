@@ -1,24 +1,27 @@
-package task_dispatch
+package main
 
-import "github.com/leason00/task-engine/core"
+import (
+	"fmt"
+	"task-engine/core"
+)
+import "task-engine/core/model"
 
 // 定时从mysql表中读取待执行的任务
-// 放入待消费的对列
-// 对列的生产者
+// 放入待消费的队列
+// 队列的生产者
 
-func TaskDispatch(){
-	rs, err := core.DB.Query("select id, task_key from task_queue where status='wait_exec'")
-	if err != nil {
-		core.Log.Error(err)
-	}
-	for rs.Next() {
-		var id int
-		var task_key string
+func main() {
+	var result bool
+	result = core.Db.HasTable(&model.TaskExecute{})
+	fmt.Println(result)
 
-		err = rs.Scan(&id, &task_key)
-		if err != nil {
-			core.Log.Error(err)
-		}
-		Redis.HSet()
+	var maps map[string]interface{}
+	maps = make(map[string]interface{})
+	maps["Status"] = core.TaskCreated
+	taskExecutes := model.GetTaskExecute(1, 10, maps)
+	for _, taskExecute := range taskExecutes {
+		fmt.Println(taskExecute.TaskKey)
+		taskExecute.AddTaskToQueue()
+		taskExecute.UpdateTaskExecuteStatus(taskExecute.ID, core.TaskWait)
 	}
 }

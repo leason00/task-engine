@@ -1,7 +1,6 @@
 package core
 
 import (
-	"flag"
 	"github.com/olebedev/config"
 	"io/ioutil"
 )
@@ -18,20 +17,4 @@ func InitConfig(path string) error {
 		return err
 	}
 	return nil
-}
-
-func init() {
-	confPath := flag.String("config", "config.yaml", "config file")
-	InitLog()
-	if err := InitConfig(*confPath); err != nil {
-		panic(err)
-	}
-	if err := InitRedis(); err != nil {
-		panic(err)
-	}
-
-	if err := InitMysql(); err != nil {
-		panic(err)
-	}
-
 }

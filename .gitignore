@@ -12,10 +12,8 @@
 *.out
 
 # Binary files
-cap-bg
-!cmd/cap-bg/main
 
 # IDE
 .idea
 
-capacity.yaml
+config.yaml
