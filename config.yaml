@@ -5,8 +5,11 @@ redis:
 
 
 mysql:
-  db: test
-  host: localhost
-  passwd:
-  port: 3306
-  user: root
+  Url: root:123456@/taskflow?charset=utf8mb4&parseTime=True&loc=Local
+
+
+web:
+  ReadTimeout: 10
+  WriteTimeout: 10
+  HttPort: 8008
+  RunMode: debug
