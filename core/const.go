@@ -9,6 +9,7 @@ const (
 	TaskWait    = "wait"
 	TaskDone    = "done"
 	TaskDoing   = "doing"
+	TaskFail    = "fail"
 )
 
 const (

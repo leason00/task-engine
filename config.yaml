@@ -12,4 +12,4 @@ web:
   ReadTimeout: 10
   WriteTimeout: 10
   HttPort: 8008
-  RunMode: debug
+  RunMode: dsebug

@@ -28,14 +28,14 @@ func AddTaskExecute(TaskKey string, Params map[string]interface{}) {
 }
 
 // 更新任务执行记录状态
-func (t *TaskExecute) UpdateTaskExecuteStatus(Id int64, Status string) {
-	taskExecute := t.GetById(Id)
+func (t *TaskExecute) UpdateTaskExecuteStatus(Status string) {
+	taskExecute := GetTaskExecuteById(t.ID)
 	core.Db.Model(&taskExecute).Update(TaskExecute{
 		Status: Status,
 	})
 }
 
-func (TaskExecute) GetById(Id int64) (taskExecute TaskExecute) {
+func GetTaskExecuteById(Id int64) (taskExecute TaskExecute) {
 	core.Db.Where("id = ?", Id).First(&taskExecute)
 	return
 }
@@ -48,15 +48,20 @@ func GetTaskExecute(pageNum int, pageSize int, maps map[string]interface{}) (tas
 }
 
 // 从redis队列弹出一个任务
-func (t *TaskExecute) PopTask() (TaskExecute, error) {
+func PopTask() (TaskExecute, error) {
 	// 队列中拿到任务，从表中查询该记录
+	var taskExecute TaskExecute
 	result := core.Redis.RPop(core.TaskQueueKey).Val()
+	if result == "" {
+		return taskExecute, nil
+	}
 	a := strings.Split(result, ":")
 	Id, err := strconv.ParseInt(a[0], 10, 64)
 	if err != nil {
 		panic(err)
 	}
-	return t.GetById(Id), err
+	taskExecute = GetTaskExecuteById(Id)
+	return taskExecute, err
 }
 
 // 向redis队列增加一个任务
