@@ -6,7 +6,7 @@ const task_queue = "wait_exec"
 
 const (
 	TaskCreated = "created"
-	TaskWait    = "wait"
+	TaskWait    = "waiting"
 	TaskDone    = "done"
 	TaskDoing   = "doing"
 	TaskFail    = "fail"
