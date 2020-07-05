@@ -7,13 +7,12 @@ import (
 type StepExecute struct {
 	core.BaseModel
 
-	TaskExecuteId int64                  `gorm:"type:int64;not null" json:"task_execute_id"`
-	TaskKey       string                 `gorm:"type:string;not null" json:"task_key"`
-	StepName      string                 `gorm:"type:string;not null" json:"step_name"`
-	OrderID       int                    `gorm:"type:int;not null" json:"order_id"` // 顺序
-	TimeOut       int                    `gorm:"type:int;not null" json:"timeout"`  //单位s
-	Status        string                 `gorm:"type:string;not null" json:"status"`
-	Context       map[string]interface{} `gorm:"type:string;not null" json:"context"`
+	TaskExecuteId int64  `gorm:"type:int64;not null" json:"task_execute_id"`
+	TaskKey       string `gorm:"type:string;not null" json:"task_key"`
+	StepName      string `gorm:"type:string;not null" json:"step_name"`
+	OrderID       int    `gorm:"type:int;not null" json:"order_id"` // 顺序
+	TimeOut       int    `gorm:"type:int;not null" json:"timeout"`  //单位s
+	Status        string `gorm:"type:string;not null" json:"status"`
 	StartTime     core.MyTime
 	EndTime       core.MyTime
 }
@@ -41,11 +40,10 @@ func GetById(Id int64) (stepExecute StepExecute) {
 }
 
 // 更新任务执行记录状态
-func (t *StepExecute) UpdateStepExecuteStatus(Id int64, Status string, Context map[string]interface{}) {
+func (t *StepExecute) UpdateStepExecuteStatus(Id int64, Status string) {
 	stepExecute := GetById(Id)
 	core.Db.Model(&stepExecute).Update(StepExecute{
-		Status:  Status,
-		Context: Context,
+		Status: Status,
 	})
 }
 

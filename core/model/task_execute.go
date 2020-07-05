@@ -13,17 +13,19 @@ type TaskExecute struct {
 	Status  string `gorm:"type:string;not null" json:"status"`
 	TaskKey string `gorm:"type:string;not null" json:"task_key"`
 	Params  map[string]interface{}
+	Context map[string]interface{} `gorm:"type:string;not null" json:"context"`
 }
 
 func (TaskExecute) TableName() string {
 	return "task_execute"
 }
 
-func AddTaskExecute(TaskKey string, Params map[string]interface{}) {
+func AddTaskExecute(TaskKey string, Params map[string]interface{}, Context map[string]interface{}) {
 	core.Db.Create(&TaskExecute{
 		Status:  core.TaskCreated,
 		TaskKey: TaskKey,
 		Params:  Params,
+		Context: Context,
 	})
 }
 
